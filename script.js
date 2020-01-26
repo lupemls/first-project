@@ -45,10 +45,12 @@ $(document).ready(function () {
         let picDiv = $('<div>');
         picDiv.attr('class', 'screenshots')
         let picArray;
+        let gameId;
         // adds additional screenshots of the game
         for(let i = 0; i < listOfResults.length; i++){
             console.log(listOfResults[0].name, game)
             if(listOfResults[i].name == game){
+                gameId = listOfResults[i].id;
                 picArray = listOfResults[i].short_screenshots;                
             }
         }
@@ -75,6 +77,18 @@ $(document).ready(function () {
             video.attr('src', videoUrl);
             info.append(video);
         }
+        let queryUrl = `https://api.rawg.io/api/games/${gameId}`
+        $.ajax({
+            url: queryUrl,
+            method: 'GET'
+        }).then(function(response){
+            console.log(response);
+            response.description_raw;
+            let description = $('<div>')
+            description.text(response.description_raw);
+            description.attr('id', 'desc')
+            $('#info').append(description);
+        })
     }
 
     //This will append the game name and the image to the page
