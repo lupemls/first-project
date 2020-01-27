@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <title>Atari Portal</title>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- div for header -->
+    <div class='header'>
+        <!-- h1 for title -->
+            <h1 class='title'>
+
+            </h1>
+        <!-- input for search  -->
+            <form id = 'search'>
+                <input type = 'text' id = 'game' placeholder = 'Enter Atari 2600 Game'>
+                <input type = 'submit' value = 'Search'>
+            </form>
+    </div>
+    <!-- div wrapper for search results -->
+    <div id="resWrap">
+        <!-- h2 for landing page welcome -->
+        <h2>
+            Welcome to Atari Portal! Search for 2600 games by title in the searchbar!
+        </h2>
+        <!-- div for search result images -->
+        <div id='gameRes'>
+        </div>    
+            <!-- div for screenshots -->
+            <div id="screenshots">
+
+            </div>
+            <!-- div for videos -->
+            <div id='info'>
+
+            </div>
+            <!-- div for game info -->
+            <div id="about">
+                <!-- h3 for title -->
+                <h3 id="title">
+
+                </h3>
+                <!-- p for releas year -->
+                <p id="yearEl">
+                    Year:
+                </p>
+                <!-- p for developer -->
+                <p id="devEl">
+                    Developer:
+                </p>
+                 <!-- p for description -->
+                <p>
+                    Description:
+                </p>
+            </div>
+        </div>
+    <!-- div for recommendations sidebar -->
+    <div id="rec">
+
+    </div>
+    <!-- div for footer -->
+    <div class="footer"></div>
+
+<script src='main.js'></script>
+</body>
+</html>
