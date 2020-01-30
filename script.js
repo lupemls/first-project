@@ -64,6 +64,7 @@ $(document).ready(function () {
         for(let i=0; i < 3; i++){
             let img = $('<img>');
             let title = $('<p>');
+            let span = $('<span>')
             let name = recImg[i].name;
             
             let queryUrl = `https://rawg.io/api/games?search=${name}&platforms=23`;
@@ -81,7 +82,8 @@ $(document).ready(function () {
                     'alt': name
                 })
                 title.text(array[0].name);
-                $('#recommend').append(title, img);
+                $(span).append(title, img);
+                $('#recommend').append(span);
             })
         }
     
@@ -104,7 +106,7 @@ $(document).ready(function () {
         e.preventDefault();
         let game = $('#game').val().trim();
         //if there is no input it will not search
-        if (game == "") {
+        if (game == '') {
             return;
         }
         printGames(game);
@@ -120,7 +122,7 @@ $(document).ready(function () {
 
     //this will append the additional images and the 5 youtube video results of the game to the page
     function printMoreInfo(game) {
-        let queryUrl = `https://www.googleapis.com/youtube/v3/search?key=AIzaSyCBZbc5OhnbOKL7oKitbYrGa0F6_P5kLQU&part=snippet&q=${game}+atari+2600`;
+        let queryUrl = `https://www.googleapis.com/youtube/v3/search?key=AIzaSyAnOFnUw0G81BnJj2mpFBAbBe8QStxPUzs&part=snippet&q=${game}+atari+2600`;
         $.ajax({
             url: queryUrl,
             method: 'GET'
@@ -129,9 +131,10 @@ $(document).ready(function () {
             //clears previous click's results
             info.empty();
             let picDiv = $('<div>');
-            picDiv.attr('class', 'screenshots')
+            picDiv.attr('class', 'screenshots');
             let picArray;
             let gameId;
+            let videos = $('<div>').attr('class', 'videos');
             // adds additional screenshots of the game if clicked from the recommended games
             if(listOfResults == null){
                 for(let i = 0; i < recImg.length; i++){
@@ -162,7 +165,7 @@ $(document).ready(function () {
                 let screenshot = $('<img>');
                 screenshot.attr({
                     'src': picArray[j].image,
-                    'class': 'screenshot'
+                    'class': 'image screenshot'
                 });
                 picDiv.append(screenshot);
             }
@@ -171,9 +174,15 @@ $(document).ready(function () {
             for (let i = 0; i < response.items.length; i++) {
                 let videoUrl = `https://www.youtube.com/embed/${response.items[i].id.videoId}`;
                 let video = $('<iframe allowFullScreen>');
-                video.attr('src', videoUrl);
-                info.append(video);
+                video.attr({
+                    'src': videoUrl,
+                    'height': 250,
+                    'width':500
+                    });
+                videos.append(video);
             }
+            info.append(videos);
+
             let queryUrl = `https://api.rawg.io/api/games/${gameId}`
             $.ajax({
                 url: queryUrl,
@@ -185,11 +194,9 @@ $(document).ready(function () {
                 
                 let year = $('<p>');
                 year.text(`Released: ${getYear}`);
-                // $('#year').append(year);
                 
                 let dev = $('<p>');
                 dev.text(`Developers: ${response.developers[0].name}`);
-                // $("#dev").append(dev);
 
                 response.description_raw;
                 let description = $('<div>')
@@ -197,6 +204,7 @@ $(document).ready(function () {
                 description.attr('id', 'desc')
                 $('#info').append(year, dev, description);
             })
+            $('.boxdescription').css('height', 'auto');
         })
     }
 
@@ -213,15 +221,19 @@ $(document).ready(function () {
             $('#info').empty();
             let array = response.results;
             for (let i = 0; i < array.length; i++) {
-                let name = $('<div>').text(array[i].name)
+                let span = $('<span>');
+                let name = $('<div>').text(array[i].name).attr('class','name');
                 let image = $('<img>').attr({
                     'class': 'image thumbnail',
                     'src': array[i].background_image,
                     'alt': array[i].name
                 });
-                p.append(name, image);
+                span.append(name, image);
+                p.append(span);
             }
             listOfResults = response.results;
         })
+        $('.boxdescription').css('height', '350px');
+
     }
 })
