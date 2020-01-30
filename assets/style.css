@@ -212,3 +212,7 @@ h2{
     white-space: normal;
     width: 6em;
 }
+iframe{
+    width: 75vw;
+    height: 37vw;
+}

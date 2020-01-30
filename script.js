@@ -175,9 +175,9 @@ $(document).ready(function () {
                 let videoUrl = `https://www.youtube.com/embed/${response.items[i].id.videoId}`;
                 let video = $('<iframe allowFullScreen>');
                 video.attr({
-                    'src': videoUrl,
-                    'height': 250,
-                    'width':500
+                    'src': videoUrl //,
+                    // 'height': 250,
+                    // 'width':500
                     });
                 videos.append(video);
             }
