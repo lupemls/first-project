@@ -1,114 +1,227 @@
-// Updated site for atari 2600 search
 $(document).ready(function () {
-    let listOfResults;
-
-    //This will search for the game name and a platfrom that the user submits, and append results to the page
-    $('#search').on('submit', function (e) {
-        e.preventDefault();
-        let game = $('#game').val();
-
-        //if there is no input it will not search
-        if(game == ""){
-            return;
+    let listOfResults = null;
+    let recImg = [
+        {
+            name: "hero",
+            id: 52535
+        },
+        {
+            name: "river raid",
+            id: 52576
+        },
+        {
+            name: "asteroids",
+            id: 52394
+        },
+        {
+            name: "battlezone",
+            id: 59123
+        },
+        {
+            name: "missile command",
+            id: 52436
+        },
+        {
+            name: "yar's revenge",
+            id: 52474
+        },
+        {
+            name: "kaboom",
+            id: 52540
+        },
+        {
+            name: "joust",
+            id: 28279
+        },
+        {
+            name: "starmaster",
+            id: 52598
+        },
+        {
+            name: "warlords",
+            id: 52476
+        },
+        {
+            name: "pitfall",
+            id: 52563
+        },
+        {
+            name: "berzerk",
+            id: 52398
         }
+    ]
+    randoRec(); 
+    //randomizes recImg, and then chooses three games to display, saving the responses object of the three games to corresponding place in recImg
+    function randoRec(){
+        let temp;
+        let num;
+        for(let i = 0; i < 3; i++){
+            num = Math.floor(Math.random()*(recImg.length))
+            temp = recImg[i];
+            recImg[i] = recImg[num];
+            recImg[num] = temp;
+        }
+        for(let i=0; i < 3; i++){
+            let img = $('<img>');
+            let title = $('<p>');
+            let name = recImg[i].name;
+            
+            let queryUrl = `https://rawg.io/api/games?search=${name}&platforms=23`;
+
+            $.ajax({
+                url: queryUrl,
+                method: 'GET'
+            }).then(function(response){
+                let array = response.results;
+                recImg[i].object = array;
+                let thumbnail = response.results[0].background_image;
+                img.attr({
+                    'src': thumbnail,
+                    'class': 'image thumbnail',
+                    'alt': name
+                })
+                title.text(array[0].name);
+                $('#recommend').append(title, img);
+            })
+        }
+    
+    }
+    //displays the additional information for the clicked recommended game(additional images, videos, description, release date and devs)
+    $('body').on('click','.recommend', function(){
+        let game = $(this).attr(alt);
         let queryUrl = `https://rawg.io/api/games?search=${game}&platforms=23`;
 
         $.ajax({
             url: queryUrl,
             method: 'GET'
         }).then(function(response){
-            printGames(response);
-            listOfResults = response.results;
+            printMoreInfo(game);
         })
+    })
+    
+    //This will search for the game name and a platfrom that the user submits, and append results to the page
+    $('#search').on('submit', function (e) {
+        e.preventDefault();
+        let game = $('#game').val().trim();
+        //if there is no input it will not search
+        if (game == "") {
+            return;
+        }
+        printGames(game);
     })
 
     //this will allow a user to click one of the images, searching the youtube API
     //user might get ERR_BLOCKED_BY_CLIENT if they have an adblocker
-    $('body').on('click','.image', function(){
+    $('body').on('click', '.thumbnail', function () {
         console.log($(this).attr('alt'));
         let game = $(this).attr('alt');
-        let queryUrl = `https://www.googleapis.com/youtube/v3/search?key=AIzaSyCBZbc5OhnbOKL7oKitbYrGa0F6_P5kLQU&part=snippet&q=${game}+atari+2600`;
-        
-        $.ajax({
-            url: queryUrl,
-            method:'GET'
-        }).then(function(response) {
-            printMoreInfo(game, response);
-        })
+        printMoreInfo(game);
     })
 
     //this will append the additional images and the 5 youtube video results of the game to the page
-    function printMoreInfo(game, response){
-        let info = $('#info');
-        //clears previous click's results
-        info.empty();
-        let picDiv = $('<div>');
-        picDiv.attr('class', 'screenshots')
-        let picArray;
-        let gameId;
-        // adds additional screenshots of the game
-        for(let i = 0; i < listOfResults.length; i++){
-            console.log(listOfResults[0].name, game)
-            if(listOfResults[i].name == game){
-                gameId = listOfResults[i].id;
-                picArray = listOfResults[i].short_screenshots;                
-            }
-        }
-        let num = 6;
-        //sets the number of images to fit the number in the array or keeps the max at 5
-        if(picArray.length < num){
-            num = picArray.length - 1;
-        }
-
-        //appends the 5 or less images after the thumbnail image(index 0)
-        for(let j = 1; j < num; j++){
-            let screenshot = $('<img>');
-            screenshot.attr({
-                'src': picArray[j].image,
-                'class': 'screenshot'
-            });
-            picDiv.append(screenshot);
-        }
-        info.append(picDiv);
-        //appends the 5 videos to the page
-        for(let i = 0; i < response.items.length; i++){
-            let videoUrl = `https://www.youtube.com/embed/${response.items[i].id.videoId}`;
-            let video = $('<iframe allowFullScreen>');
-            video.attr('src', videoUrl);
-            info.append(video);
-        }
-        let queryUrl = `https://api.rawg.io/api/games/${gameId}`
+    function printMoreInfo(game) {
+        let queryUrl = `https://www.googleapis.com/youtube/v3/search?key=AIzaSyCBZbc5OhnbOKL7oKitbYrGa0F6_P5kLQU&part=snippet&q=${game}+atari+2600`;
         $.ajax({
             url: queryUrl,
             method: 'GET'
-        }).then(function(response){
-            console.log(response);
-            response.description_raw;
-            let description = $('<div>')
-            description.text(response.description_raw);
-            description.attr('id', 'desc')
-            $('#info').append(description);
+        }).then(function (response) {
+            let info = $('#info');
+            //clears previous click's results
+            info.empty();
+            let picDiv = $('<div>');
+            picDiv.attr('class', 'screenshots')
+            let picArray;
+            let gameId;
+            // adds additional screenshots of the game if clicked from the recommended games
+            if(listOfResults == null){
+                for(let i = 0; i < recImg.length; i++){
+                    if(recImg[i].name == game){
+                        gameId = recImg[i].id;
+                        picArray = recImg[i].object[0].short_screenshots;
+                    }
+                }
+            }
+            // adds additional screenshots of the game if clicked from the results from the search
+            else{
+                for (let i = 0; i < listOfResults.length; i++) {
+                    // console.log(listOfResults[0].name, game)
+                    if (listOfResults[i].name == game) {
+                        gameId = listOfResults[i].id;
+                        picArray = listOfResults[i].short_screenshots;
+                    }
+                }
+            }
+
+            let num = 6;
+            //sets the number of images to fit the number in the array or keeps the max at 5
+            if (picArray.length < num) {
+                num = picArray.length - 1;
+            }
+            //appends the 5 or less images after the thumbnail image(index 0)
+            for (let j = 1; j < num; j++) {
+                let screenshot = $('<img>');
+                screenshot.attr({
+                    'src': picArray[j].image,
+                    'class': 'screenshot'
+                });
+                picDiv.append(screenshot);
+            }
+            info.append(picDiv);
+            //appends the 5 videos to the page
+            for (let i = 0; i < response.items.length; i++) {
+                let videoUrl = `https://www.youtube.com/embed/${response.items[i].id.videoId}`;
+                let video = $('<iframe allowFullScreen>');
+                video.attr('src', videoUrl);
+                info.append(video);
+            }
+            let queryUrl = `https://api.rawg.io/api/games/${gameId}`
+            $.ajax({
+                url: queryUrl,
+                method: 'GET'
+            }).then(function (response) {
+                console.log(response);
+                let date = new Date(response.released);
+                let getYear = date.getFullYear();
+                
+                let year = $('<p>');
+                year.text(`Released: ${getYear}`);
+                // $('#year').append(year);
+                
+                let dev = $('<p>');
+                dev.text(`Developers: ${response.developers[0].name}`);
+                // $("#dev").append(dev);
+
+                response.description_raw;
+                let description = $('<div>')
+                description.text(response.description_raw);
+                description.attr('id', 'desc')
+                $('#info').append(year, dev, description);
+            })
         })
     }
 
     //This will append the game name and the image to the page
-    function printGames(response){
-        console.log(response);
-        let p = $('p');
-        p.empty();
-        $('#info').empty();
-        let array = response.results;
-    
-        for(let i = 0; i<array.length; i++){
-            let name = $('<div>').text(array[i].name)
-            let image = $('<img>').attr({
-                'class': 'image',
-                'src': array[i].background_image,
-                'alt': array[i].name
-            });
-            p.append(name, image);
-        }
+    function printGames(game) {
+        let queryUrl = `https://rawg.io/api/games?search=${game}&platforms=23`;
+        $.ajax({
+            url: queryUrl,
+            method: 'GET'
+        }).then(function (response) {
+            console.log(response);
+            let p = $('#results');
+            p.empty();
+            $('#info').empty();
+            let array = response.results;
+            for (let i = 0; i < array.length; i++) {
+                let name = $('<div>').text(array[i].name)
+                let image = $('<img>').attr({
+                    'class': 'image thumbnail',
+                    'src': array[i].background_image,
+                    'alt': array[i].name
+                });
+                p.append(name, image);
+            }
+            listOfResults = response.results;
+        })
     }
-
 })
-

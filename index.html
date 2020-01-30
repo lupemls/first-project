@@ -5,21 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    <title>Document</title>
+    <title>Atari Portal</title>
 </head>
 
 <body>
-    <form id = 'search'>
-        <input type = 'text' id = 'game' placeholder = 'Enter Atari 2600 Game'>
-        <input type = 'submit' value = 'Search'>
-    </form>
+    <!-- div for header -->
+    <div class='header'>
 
-    <!-- This will be where we will dynamically add videos for the clicked game -->
-    <div id = 'info'></div>
-
-    <!-- This will be where we wil dynamically add names and images for the searched game-->
-    <p></p>
-    
+        <!-- input for search  -->
+            <form id = 'search'>
+                <input type = 'text' id = 'game' placeholder = 'Enter Atari 2600 Game'>
+                <input type = 'submit' value = 'Search'>
+            </form>
+    </div>   
+    <div class='container'>
+        <!-- randomley generated game images -->
+        <div id="recommend">
+       
+        </div>
+        <!-- div for search result image -->
+        <div id='gameRes'>
+            <p id='results'>
+            
+            </p>
+        </div>
+        <!-- This will be where we will dynamically add videos for the clicked game -->
+        <div id='info'></div>
+        
+    </div>
     <script src = 'script.js'></script>
 </body>
 
