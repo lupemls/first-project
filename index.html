@@ -1,20 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Boot camp first project</title>
+    <link href="https://fonts.googleapis.com/css?family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="./assets/img/favicon.png" />
+
+
+    <!-- FRAMEWORK: FOUNDATION -->
+    <!-- Compressed CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.4.3/dist/css/foundation.min.css"
+        integrity="sha256-GSio8qamaXapM8Fq9JYdGNTvk/dgs+cMLgPeevOYEx0= sha384-wAweiGTn38CY2DSwAaEffed6iMeflc0FMiuptanbN4J+ib+342gKGpvYRWubPd/+ sha512-QHEb6jOC8SaGTmYmGU19u2FhIfeG+t/hSacIWPpDzOp5yygnthL3JwnilM7LM1dOAbJv62R+/FICfsrKUqv4Gg=="
+        crossorigin="anonymous">
+
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+    <link rel="stylesheet" href="./assets/style.css">
 </head>
+
+
 <body>
-    
+
+    <div class="wrapper">
+
+
+        <form class="input-group input-group-rounded" id="search">
+            <input class="input-group-field" type="search" id="game">
+            <div class="input-group-button">
+                <input type="submit" class="button secondary" value="Search">
+            </div>
+        </form>
+
+
+        <div class="header">
+            <h1 class="glitch" data-text="Atari Portal"> <img src="./assets/img/logo90w 60h.png"> Atari Portal</h1>
+
+        </div>
 
 
 
 
+        <img class="woodimg" src="./assets/img/woodimg.jpg">
 
 
 
-    
+
+        <div class="boxcontainer">
+            <p id="results">
+                <h2>Recommended Games</h2>
+                <div id="recommend"></div>
+            </p>
+        </div>
+
+
+        <div class="boxdescription" id="info"></div>
+
+        <br>
+        <div class="footer">
+            <p>Developed by Greivin, Matt, Riley, and Violet</p>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+        <script src="script.js"></script>
+
 </body>
+
 </html>
