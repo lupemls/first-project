@@ -195,10 +195,8 @@ span{
     overflow: auto;
     white-space: nowrap;
 }
-/* #results{
-    white-space: nowrap;
-} */
-.videos::-webkit-scrollbar { 
+/*Used to hide scrollbars
+/* .videos::-webkit-scrollbar { 
     display: none; 
 } 
 .screenshots::-webkit-scrollbar { 
@@ -206,7 +204,7 @@ span{
 } 
 .boxcontainer::-webkit-scrollbar { 
     display: none; 
-} 
+}  */
 h2{
     float: left;
     white-space: normal;
